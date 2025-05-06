@@ -27,7 +27,7 @@ public class ItemHandler : MonoBehaviour
     private float forceInput;
 
     [SerializeField] LineRenderer lineRenderer;
-    private int trajectorySteps = 30;
+    private int trajectorySteps = 50;
     private float trajectoryTimeStep = 0.05f;
 
     private void Awake()
