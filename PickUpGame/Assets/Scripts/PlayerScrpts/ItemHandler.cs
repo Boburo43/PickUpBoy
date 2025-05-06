@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Windows;
 
 
 public class ItemHandler : MonoBehaviour
@@ -8,18 +10,35 @@ public class ItemHandler : MonoBehaviour
     [SerializeField]private LayerMask pickupMask;
     private float pickupRange = 2f;
     private float throwForce = 5f;
+    private float throwAngle = 30f;
+
+    private float minThrowForce = 2f;
+    private float maxThrowForce = 15f;
+
+    private float minThrowAngle = 15f;
+    private float maxThrowAngle = 80f;
+
+    private float angleAdjustSpeed = 60f;
+    private float forceAdjustSpeed = 20f;
 
     private Pickupable heldItem;
     private InputSystem_Actions controls;
-
+    private float angleInput;
+    private float forceInput;
 
     [SerializeField] LineRenderer lineRenderer;
     private int trajectorySteps = 30;
     private float trajectoryTimeStep = 0.05f;
+
     private void Awake()
     {
         controls = new InputSystem_Actions();
         controls.Player.PickUp.performed += _ => OnPickUpOrThrow();
+        controls.Player.AdjustAngle.performed += ctx => angleInput = ctx.ReadValue<float>();
+        controls.Player.AdjustAngle.canceled += _ => angleInput = 0f;
+
+        controls.Player.AdjustForce.performed += ctx => forceInput = ctx.ReadValue<float>();
+        controls.Player.AdjustForce.canceled += _ => forceInput = 0f;
     }
 
     private void OnEnable()
@@ -44,6 +63,12 @@ public class ItemHandler : MonoBehaviour
         }
         // Draw a wireframe sphere in the Scene view (editor only)
         DebugDrawSphere(grabPoint.position, pickupRange, Color.green);
+
+        throwAngle += angleInput * angleAdjustSpeed * Time.deltaTime;
+        throwForce += forceInput * forceAdjustSpeed * Time.deltaTime;
+
+        throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
+        throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
     }
 
     void OnPickUpOrThrow()
@@ -75,8 +100,12 @@ public class ItemHandler : MonoBehaviour
 
     void ThrowItem()
     {
-        Vector3 throwDirection = transform.forward; // or adjust for camera direction if needed
-        heldItem.Throw(throwDirection * throwForce);
+        Vector3 forward = transform.forward;
+        Vector3 up = Vector3.up;
+        Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, Vector3.Cross(forward, up));
+        Vector3 throwDir = angleRotation * forward;
+
+        heldItem.Throw(throwDir * throwForce);
         heldItem = null;
     }
     void DebugDrawSphere(Vector3 center, float radius, Color color, int segments = 24)
@@ -109,7 +138,10 @@ public class ItemHandler : MonoBehaviour
         Vector3[] points = new Vector3[trajectorySteps];
 
         Vector3 startPos = carryPoint.position;
-        Vector3 velocity = transform.forward * throwForce;
+        Quaternion angleRot = Quaternion.AngleAxis(throwAngle, Vector3.Cross(transform.forward, Vector3.up));
+        Vector3 throwDir = angleRot * transform.forward;
+        Vector3 velocity = throwDir * throwForce;
+
 
         for (int i = 0; i < trajectorySteps; i++)
         {
