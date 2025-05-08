@@ -105,9 +105,14 @@ public class ItemHandler : MonoBehaviour
         Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, Vector3.Cross(forward, up));
         Vector3 throwDir = angleRotation * forward;
 
-        heldItem.Throw(throwDir * throwForce);
+        heldItem.Throw(throwDir * throwForce * heldItem.ThrowForceMultiplier());
         heldItem = null;
     }
+    public float GetHeldItemSpeedMultiplier()
+    {
+        return heldItem != null ? heldItem.MovementSpeedMultiplier() : 1f;
+    }
+
     void DebugDrawSphere(Vector3 center, float radius, Color color, int segments = 24)
     {
         float step = 360f / segments;
@@ -139,8 +144,8 @@ public class ItemHandler : MonoBehaviour
 
         Vector3 startPos = carryPoint.position;
         Quaternion angleRot = Quaternion.AngleAxis(throwAngle, Vector3.Cross(transform.forward, Vector3.up));
-        Vector3 throwDir = angleRot * transform.forward;
-        Vector3 velocity = throwDir * throwForce;
+        Vector3 throwDir = angleRot * transform.forward * heldItem.ThrowForceMultiplier();
+        Vector3 velocity = throwDir * throwForce * heldItem.ThrowForceMultiplier();
 
 
         for (int i = 0; i < trajectorySteps; i++)

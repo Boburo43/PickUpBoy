@@ -3,8 +3,9 @@ using UnityEngine.InputSystem; // <-- Important for InputAction!
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float moveSpeed = 4f;
+    [SerializeField] private ItemHandler itemHandler;
+
+    [SerializeField] private float moveSpeed = 4f;
 
     private Vector2 moveInput;
     private Vector3 forward, right;
@@ -55,7 +56,9 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirection = (right * inputDirection.x + forward * inputDirection.z).normalized;
 
             transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * 10f);
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            float speedMultiplier = itemHandler != null ? itemHandler.GetHeldItemSpeedMultiplier(): 1f;
+            transform.position += moveDirection * moveSpeed * speedMultiplier * Time.deltaTime;
+
         }
     }
 }

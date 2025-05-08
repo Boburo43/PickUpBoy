@@ -1,9 +1,19 @@
 using UnityEngine;
 
+public enum ItemWeightClass
+{
+    Light,
+    Medium,
+    Heavy
+}
+
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Pickupable : MonoBehaviour
 {
+    public ItemWeightClass weightClass = ItemWeightClass.Medium;
+
     public bool IsHeld { get; private set; }
+
     private Rigidbody rb;
     private Collider col;
 
@@ -16,8 +26,9 @@ public class Pickupable : MonoBehaviour
     public void PickUp(Transform holdParent)
     {
         IsHeld = true;
+        rb.linearVelocity = Vector3.zero; // Correct property
+        rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
-        rb.linearVelocity = Vector3.zero;
         col.enabled = false;
 
         transform.SetParent(holdParent);
@@ -28,10 +39,33 @@ public class Pickupable : MonoBehaviour
     {
         IsHeld = false;
         transform.SetParent(null);
-        col.enabled = true;
         rb.isKinematic = false;
+        col.enabled = true;
 
         rb.linearVelocity = Vector3.zero;
-        rb.AddForce(force, ForceMode.Impulse);
+        rb.angularVelocity = Vector3.zero;
+        rb.AddForce(force * ThrowForceMultiplier(), ForceMode.Impulse);
+    }
+
+    public float ThrowForceMultiplier()
+    {
+        return weightClass switch
+        {
+            ItemWeightClass.Light => 1f,
+            ItemWeightClass.Medium => 0.7f,
+            ItemWeightClass.Heavy => 0.5f,
+            _ => 1f
+        };
+    }
+
+    public float MovementSpeedMultiplier()
+    {
+        return weightClass switch
+        {
+            ItemWeightClass.Light => 1f,
+            ItemWeightClass.Medium => 0.85f,
+            ItemWeightClass.Heavy => 0.3f,
+            _ => 1f
+        };
     }
 }
