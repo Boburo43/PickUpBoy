@@ -11,28 +11,36 @@ public enum ItemWeightClass
 public class Pickupable : MonoBehaviour
 {
     public ItemWeightClass weightClass = ItemWeightClass.Medium;
-
     public bool IsHeld { get; private set; }
 
     private Rigidbody rb;
     private Collider col;
 
+    private static GameObject trailPrefab; // Shared reference across all items
+    [SerializeField]private GameObject currentTrail;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+
+        // Load the trail only once
+        if (trailPrefab == null)
+        {
+            trailPrefab = Resources.Load<GameObject>("Prefabs/ThrowTrail");
+        }
     }
 
     public void PickUp(Transform holdParent)
     {
         IsHeld = true;
-        rb.linearVelocity = Vector3.zero; // Correct property
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
         col.enabled = false;
 
         transform.SetParent(holdParent);
-        transform.localPosition = Vector3.zero;
+        transform.localPosition = Vector3.zero;    
     }
 
     public void Throw(Vector3 force)
@@ -45,6 +53,7 @@ public class Pickupable : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.AddForce(force * ThrowForceMultiplier(), ForceMode.Impulse);
+ 
     }
 
     public float ThrowForceMultiplier()
