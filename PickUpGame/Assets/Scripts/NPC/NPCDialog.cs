@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,16 @@ public class NPCDialogueTrigger : MonoBehaviour
 
     private int currentLineIndex = 0;
     private bool playerInRange = false;
+    private bool isTyping = false;
+    private string currentLine = "";
+
+    [SerializeField]private bool dialogueFinished = false;
+
+    private Coroutine typingCoroutine;
+    public float typingSpeed = 0.05f;
+
+    [SerializeField] private float inputCooldown = 0.2f;
+    private bool inputLocked = false;
 
     private TMPro.TextMeshProUGUI textComponent;
     private InputSystem_Actions controls;
@@ -45,7 +56,14 @@ public class NPCDialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            ShowCurrentDialogueLine();
+            if(dialogueFinished)
+            {
+                ShowReminderLine();
+            }
+            else
+            {
+                ShowCurrentDialogueLine();
+            }               
         }
     }
 
@@ -54,19 +72,49 @@ public class NPCDialogueTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-            if (textBubbleUI != null)
-                textBubbleUI.SetActive(false);
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
+            textBubbleUI.SetActive(false);
+            isTyping = false;
         }
     }
 
+
     private void OnTalkPerformed(InputAction.CallbackContext context)
     {
-        if (!playerInRange)
-        
+        if (!playerInRange || dialogueData == null)
             return;
 
-        currentLineIndex = (currentLineIndex + 1) % dialogueData.dialogueLines.Count;
-        ShowCurrentDialogueLine();
+        StartCoroutine(InputCooldown());
+
+        if (isTyping)
+        {
+            StopCoroutine(typingCoroutine);
+            textComponent.text = currentLine;
+            isTyping = false;
+        }
+        else
+        {
+            if (dialogueFinished)
+            {
+                ShowReminderLine();
+                return;
+            }
+
+            // Advance to the next line *only* if not at the last one
+            if (currentLineIndex + 1 >= dialogueData.dialogueLines.Count)
+            {
+                dialogueFinished = true;
+                ShowReminderLine();
+            }
+            else
+            {
+                currentLineIndex++;
+                ShowCurrentDialogueLine();
+            }
+
+        }
     }
 
     private void ShowCurrentDialogueLine()
@@ -75,6 +123,51 @@ public class NPCDialogueTrigger : MonoBehaviour
             return;
 
         textBubbleUI.SetActive(true);
-        textComponent.text = dialogueData.dialogueLines[currentLineIndex];
+
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        currentLine = dialogueData.dialogueLines[currentLineIndex];
+        typingCoroutine = StartCoroutine(TypeText(currentLine));
     }
+
+    private void ShowReminderLine()
+    {
+        dialogueFinished = true;
+
+        if (string.IsNullOrEmpty(dialogueData.reminderLine))
+            return;
+
+        textBubbleUI.SetActive(true);
+
+        if (typingCoroutine != null)
+            StopCoroutine(typingCoroutine);
+
+        currentLine = dialogueData.reminderLine;
+        typingCoroutine = StartCoroutine(TypeText(currentLine));
+    }
+
+
+
+    private IEnumerator TypeText(string line)
+    {
+        isTyping = true;
+        textComponent.text = "";
+
+        foreach (char letter in line.ToCharArray())
+        {
+            textComponent.text += letter;
+            yield return new WaitForSeconds(typingSpeed);
+        }
+
+        isTyping = false;
+    }
+    private IEnumerator InputCooldown()
+    {
+        inputLocked = true;
+        yield return new WaitForSeconds(inputCooldown);
+        inputLocked = false;
+    }
+
+
 }
