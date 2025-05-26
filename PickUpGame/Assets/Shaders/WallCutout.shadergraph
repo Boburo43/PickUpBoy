@@ -2107,7 +2107,7 @@
     "m_DefaultRefNameVersion": 1,
     "m_RefNameGeneratedByDisplayName": "Cutout Size",
     "m_DefaultReferenceName": "_Cutout_Size",
-    "m_OverrideReferenceName": "_CutoffSize",
+    "m_OverrideReferenceName": "_CutoutSize",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
     "m_CustomSlotLabel": "",
@@ -2320,7 +2320,7 @@
     "m_Hidden": false,
     "m_Value": {
         "x": 0.5,
-        "y": 0.5,
+        "y": 0.30000001192092898,
         "z": 0.0,
         "w": 0.0
     }
