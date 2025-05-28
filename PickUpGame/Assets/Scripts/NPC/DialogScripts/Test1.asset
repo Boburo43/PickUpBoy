@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5dffabc058e816449ef39b775981647, type: 3}
-  m_Name: TestNPC
+  m_Name: Test1
   m_EditorClassIdentifier: 
   dialogueLines:
-  - 'Test tst i fuck you mom
-
-'
-  - 'Yes i do
-
-'
-  - 'yuh uh
-
-'
-  reminderLine: Get me as
-  isFinished: 0
+  - Hello
+  - I love dirt
+  endLine: Se you around
