@@ -6,6 +6,8 @@ public class DialogueData : ScriptableObject
 {
     [TextArea(2, 5)]
     public List<string> dialogueLines = new List<string>();
-    public string reminderLine;
-    public bool isFinished = false;
+
+    [TextArea]
+    public string endLine;
 }
+
