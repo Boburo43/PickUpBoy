@@ -9,7 +9,6 @@ public class NPCDialogueTrigger : MonoBehaviour
     public Quest npcQuest; // Optional quest reference
 
     public float typingSpeed = 0.05f;
-    [SerializeField] private float inputCooldown = 0.2f;
 
     [SerializeField]private int currentLineIndex = 0;
     private bool playerInRange = false;
