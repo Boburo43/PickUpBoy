@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+[RequireComponent(typeof(SphereCollider))]
 
 public class NPCDialogueTrigger : MonoBehaviour
 {
     public GameObject textBubbleUI;
+    [SerializeField] private Transform textAnchor;
     public DialogueData dialogueData;
     public Quest npcQuest; // Optional quest reference
 
@@ -19,10 +21,12 @@ public class NPCDialogueTrigger : MonoBehaviour
     private string currentLine = "";
     private string lastDisplayedLine = "";
 
-
     private Coroutine typingCoroutine;
     private TMPro.TextMeshProUGUI textComponent;
     private InputSystem_Actions controls;
+
+    [SerializeField] private float dialogRadius = 3f;
+    private SphereCollider triggerCollider;
 
     private void Awake()
     {
@@ -35,11 +39,19 @@ public class NPCDialogueTrigger : MonoBehaviour
 
     private void Start()
     {
+        triggerCollider = GetComponent<SphereCollider>();
+        triggerCollider.isTrigger = true;
+        triggerCollider.radius = dialogRadius;
+
         if (textBubbleUI != null)
         {
             textComponent = textBubbleUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             textBubbleUI.SetActive(false);
         }
+    }
+    private void Update()
+    {
+        textBubbleUI.transform.position = textAnchor.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -69,8 +81,6 @@ public class NPCDialogueTrigger : MonoBehaviour
             }
         }
     }
-
-
 
     private void OnTriggerExit(Collider other)
     {
