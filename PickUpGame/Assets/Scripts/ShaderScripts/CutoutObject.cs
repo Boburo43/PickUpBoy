@@ -12,7 +12,8 @@ public class CutoutObject : MonoBehaviour
     [SerializeField] private LayerMask wallMask;
 
     private Camera mainCamera;
-    private Vector2 cutoutPos = new Vector2(0.5f, 0.3f);
+    private Vector2 cutoutPos;
+
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class CutoutObject : MonoBehaviour
         Vector3 to = targetObject.position;
         Vector3 dir = (to - from).normalized;
         float dist = Vector3.Distance(from, to);
+        Vector3 viewportPos = mainCamera.WorldToViewportPoint(targetObject.position);
+        cutoutPos = new Vector2(viewportPos.x, viewportPos.y - 0.2f);
 
         RaycastHit[] hits = Physics.RaycastAll(from, dir, dist, wallMask);
 
