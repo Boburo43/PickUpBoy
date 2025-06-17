@@ -20,18 +20,18 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         controls.Player.Enable();
-        controls.Player.Move.performed += OnMove;
+        controls.Player.Move.performed += Move;
         controls.Player.Move.canceled += OnMoveCanceled;
     }
 
     private void OnDisable()
     {
-        controls.Player.Move.performed -= OnMove;
+        controls.Player.Move.performed -= Move;
         controls.Player.Move.canceled -= OnMoveCanceled;
         controls.Player.Disable();
     }
 
-    private void OnMove(InputAction.CallbackContext context)
+    private void Move(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
     }
