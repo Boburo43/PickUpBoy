@@ -144,6 +144,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Store"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd083d3e-52ce-481a-813d-0b95a60c8e9e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -430,6 +439,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleQuestList"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae568526-315c-4ac2-81b6-964d243e7ea7"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Store"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3887758b-0f7e-42f6-b369-beb6db93650f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Store"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -979,6 +1010,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_PickUp = m_Player.FindAction("PickUp", throwIfNotFound: true);
         m_Player_Talk = m_Player.FindAction("Talk", throwIfNotFound: true);
         m_Player_ToggleQuestList = m_Player.FindAction("ToggleQuestList", throwIfNotFound: true);
+        m_Player_Store = m_Player.FindAction("Store", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1078,6 +1110,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_Talk;
     private readonly InputAction m_Player_ToggleQuestList;
+    private readonly InputAction m_Player_Store;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1113,6 +1146,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ToggleQuestList".
         /// </summary>
         public InputAction @ToggleQuestList => m_Wrapper.m_Player_ToggleQuestList;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Store".
+        /// </summary>
+        public InputAction @Store => m_Wrapper.m_Player_Store;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1157,6 +1194,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleQuestList.started += instance.OnToggleQuestList;
             @ToggleQuestList.performed += instance.OnToggleQuestList;
             @ToggleQuestList.canceled += instance.OnToggleQuestList;
+            @Store.started += instance.OnStore;
+            @Store.performed += instance.OnStore;
+            @Store.canceled += instance.OnStore;
         }
 
         /// <summary>
@@ -1186,6 +1226,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleQuestList.started -= instance.OnToggleQuestList;
             @ToggleQuestList.performed -= instance.OnToggleQuestList;
             @ToggleQuestList.canceled -= instance.OnToggleQuestList;
+            @Store.started -= instance.OnStore;
+            @Store.performed -= instance.OnStore;
+            @Store.canceled -= instance.OnStore;
         }
 
         /// <summary>
@@ -1528,6 +1571,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleQuestList(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Store" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStore(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
