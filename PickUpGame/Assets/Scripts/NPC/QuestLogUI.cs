@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+
 public class QuestLogUI : MonoBehaviour
 {
     public GameObject questEntryPrefab;
@@ -11,22 +11,15 @@ public class QuestLogUI : MonoBehaviour
 
     private List<string> activeQuests = new List<string>();
 
-    private InputSystem_Actions controls;
     [SerializeField] private GameObject Scroller;
 
-    private void Awake()
+    private void Update()
     {
-
-        controls = new InputSystem_Actions();
-        controls.Player.ToggleQuestList.performed += ToggleQuestLog;
-    }
-
-    private void OnEnable() => controls?.Enable();
-    private void OnDisable() => controls?.Disable();
-
-    private void ToggleQuestLog(InputAction.CallbackContext context)
-    {
-        ToggleQuestLog();
+        // Check for toggle press in UserInputManager
+        if (UserInputManager.instance.ToggleQuestList)
+        {
+            ToggleQuestLog();
+        }
     }
 
     public void ToggleQuestLog()
@@ -64,6 +57,7 @@ public class QuestLogUI : MonoBehaviour
             }
         }
     }
+
     public void MarkQuestAsCompleted(string questName)
     {
         foreach (Transform child in questListParent)
@@ -71,12 +65,10 @@ public class QuestLogUI : MonoBehaviour
             TMP_Text tmpText = child.GetComponent<TMP_Text>();
             if (tmpText != null && tmpText.text == $"• {questName}")
             {
-                // Enable the line instead of using <s>
                 Transform line = child.Find("CrossedLine");
                 if (line != null)
                     line.gameObject.SetActive(true);
             }
         }
     }
-
 }

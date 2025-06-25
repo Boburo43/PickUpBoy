@@ -1,64 +1,71 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // <-- Important for InputAction!
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private ItemHandler itemHandler;
-
     [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float rotationSpeed = 10f;
+    [SerializeField] private float pushForce = 0.2f;
+    [SerializeField] private float gravityValue = -9.81f;
 
-    private Vector2 moveInput;
+    private CharacterController characterController;
     private Vector3 forward, right;
-
-    private InputSystem_Actions controls; 
+    private Vector3 playerVelocity;
+    private bool groundedPlayer;
 
     private void Awake()
     {
-        controls = new InputSystem_Actions();
+        characterController = GetComponent<CharacterController>();
     }
 
-    private void OnEnable()
+    private void LateUpdate()
     {
-        controls.Player.Enable();
-        controls.Player.Move.performed += Move;
-        controls.Player.Move.canceled += OnMoveCanceled;
+        HandleMovement();
     }
 
-    private void OnDisable()
+    private void HandleMovement()
     {
-        controls.Player.Move.performed -= Move;
-        controls.Player.Move.canceled -= OnMoveCanceled;
-        controls.Player.Disable();
-    }
+        groundedPlayer = characterController.isGrounded;
 
-    private void Move(InputAction.CallbackContext context)
-    {
-        moveInput = context.ReadValue<Vector2>();
-    }
+        if (groundedPlayer && playerVelocity.y < 0)
+        {
+            playerVelocity.y = -2f; // Keeps player grounded firmly
+        }
 
-    private void OnMoveCanceled(InputAction.CallbackContext context)
-    {
-        moveInput = Vector2.zero;
-    }
-
-    private void Update()
-    {
         forward = Camera.main.transform.forward;
         forward.y = 0;
         forward.Normalize();
 
         right = Quaternion.Euler(0, 90, 0) * forward;
 
+        Vector2 moveInput = UserInputManager.instance.MoveInput;
         Vector3 inputDirection = new Vector3(moveInput.x, 0, moveInput.y);
+        Vector3 finalMove = Vector3.zero;
 
         if (inputDirection.magnitude > 0.1f)
         {
             Vector3 moveDirection = (right * inputDirection.x + forward * inputDirection.z).normalized;
 
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * 10f);
-            float speedMultiplier = itemHandler != null ? itemHandler.GetHeldItemSpeedMultiplier(): 1f;
-            transform.position += moveDirection * moveSpeed * speedMultiplier * Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
+            float speedMultiplier = itemHandler != null ? itemHandler.GetHeldItemSpeedMultiplier() : 1f;
+            finalMove = moveDirection * moveSpeed * speedMultiplier;
         }
+
+        playerVelocity.y += gravityValue * Time.deltaTime;
+
+        characterController.Move((finalMove + playerVelocity) * Time.deltaTime);
     }
+
+     /* private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        if (body != null && !body.isKinematic)
+        {
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            body.AddForce(pushDir * pushForce, ForceMode.Impulse);
+        }
+    }*/
 }

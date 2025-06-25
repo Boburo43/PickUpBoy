@@ -4,17 +4,20 @@ using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject StartMenu;
-    [SerializeField] private GameObject OptionsMenu;
+    [SerializeField] private GameObject StartCanvas;
+    [SerializeField] private GameObject OptionsCanvas;
+    [SerializeField] private GameObject ControllerCanvas;
+    [SerializeField] private GameObject KeyBoardCanvas;
+    [SerializeField] private GameObject AudioCanvas;
 
-    public GameObject MenuFirst, optionsFirst;
+    [SerializeField] private GameObject menuFirst, settingsFirst, controllerFirst, keyboardFirst, audioFirst;
 
     private void Awake()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(MenuFirst);
-        StartMenu.SetActive(true);
-        OptionsMenu.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(menuFirst);
+        StartCanvas.SetActive(true);
+        OptionsCanvas.SetActive(false);
     }
     public void Play()
     {
@@ -22,17 +25,57 @@ public class MainMenu : MonoBehaviour
     }
     public void Options()
     {
-        StartMenu.SetActive(false);
-        OptionsMenu.SetActive(true);
+        StartCanvas.SetActive(false);
+        OptionsCanvas.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(optionsFirst);
+        EventSystem.current.SetSelectedGameObject(settingsFirst);
     }
     public void ShowStartMenu()
     {
-        StartMenu.SetActive(true);
-        OptionsMenu.SetActive(false);
+        StartCanvas.SetActive(true);
+        OptionsCanvas.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(MenuFirst);
+        EventSystem.current.SetSelectedGameObject(menuFirst);
+    }
+
+    public void BackToSettings()
+    {
+        OptionsCanvas.SetActive(true);
+
+        ControllerCanvas.SetActive(false);
+        KeyBoardCanvas.SetActive(false);
+        AudioCanvas.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(settingsFirst);
+
+    }
+
+    public void GamePad()
+    {
+        ControllerCanvas.SetActive(true);
+        OptionsCanvas.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(controllerFirst);
+    }
+
+    public void Keyboard()
+    {
+        KeyBoardCanvas.SetActive(true);
+        OptionsCanvas.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(keyboardFirst);
+    }
+
+    public void Audio()
+    {
+        AudioCanvas.SetActive(true);
+        OptionsCanvas.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(audioFirst);
     }
     public void Quit()
     {

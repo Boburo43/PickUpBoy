@@ -20,9 +20,6 @@ public class ItemHandler : MonoBehaviour
     private float forceAdjustSpeed = 20f;
 
     private Pickupable heldItem;
-    private InputSystem_Actions controls;
-    private float angleInput;
-    private float forceInput;
 
     [SerializeField] private LineRenderer lineRenderer;
     private int trajectorySteps = 50;
@@ -30,22 +27,45 @@ public class ItemHandler : MonoBehaviour
 
     private void Awake()
     {
-        controls = new InputSystem_Actions();
-        inventory = GetComponent<Inventory>();
-
-        controls.Player.PickUp.performed += _ => OnPickUpOrThrow();
-        controls.Player.AdjustAngle.performed += ctx => angleInput = ctx.ReadValue<float>();
-        controls.Player.AdjustAngle.canceled += _ => angleInput = 0f;
-        controls.Player.AdjustForce.performed += ctx => forceInput = ctx.ReadValue<float>();
-        controls.Player.AdjustForce.canceled += _ => forceInput = 0f;
-
-        controls.Player.Store.performed += _ => OnStoreOrRetrieve();
+        if (inventory == null)
+        {
+            inventory = GetComponent<Inventory>();
+        }
     }
 
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
-
     private void Update()
+    {
+        HandleInput();
+        HandleAiming();
+        HandleTrajectory();
+    }
+
+    private void HandleInput()
+    {
+        if (UserInputManager.instance.PickUp)
+        {
+            OnPickUpOrThrow();
+        }
+
+        if (UserInputManager.instance.Store)
+        {
+            OnStoreOrRetrieve();
+        }
+    }
+
+    private void HandleAiming()
+    {
+        float angleInput = UserInputManager.instance.AdjustAngle;
+        float forceInput = UserInputManager.instance.AdjustForce;
+
+        throwAngle += angleInput * angleAdjustSpeed * Time.deltaTime;
+        throwForce += forceInput * forceAdjustSpeed * Time.deltaTime;
+
+        throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
+        throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
+    }
+
+    private void HandleTrajectory()
     {
         if (heldItem != null)
         {
@@ -57,12 +77,6 @@ public class ItemHandler : MonoBehaviour
         }
 
         DebugDrawSphere(grabPoint.position, pickupRange, Color.green);
-
-        throwAngle += angleInput * angleAdjustSpeed * Time.deltaTime;
-        throwForce += forceInput * forceAdjustSpeed * Time.deltaTime;
-
-        throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
-        throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
     }
 
     private void OnPickUpOrThrow()
