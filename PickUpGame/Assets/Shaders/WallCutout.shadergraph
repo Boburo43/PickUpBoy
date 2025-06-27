@@ -558,7 +558,7 @@
             },
             "m_InputSlot": {
                 "m_Node": {
-                    "m_Id": "f8babbb3cefb4fbeb376b2f51831b8eb"
+                    "m_Id": "7f199b91aa1d418aadc9bd5f50070283"
                 },
                 "m_SlotId": 0
             }
@@ -807,10 +807,10 @@
     "m_Guid": {
         "m_GuidSerialized": "500f560d-1436-435a-bfb5-a5ccbd2632cf"
     },
-    "m_Name": "Specular",
+    "m_Name": "Emission",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Specular",
-    "m_DefaultReferenceName": "_Specular",
+    "m_RefNameGeneratedByDisplayName": "Emission",
+    "m_DefaultReferenceName": "_Emission",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -2045,7 +2045,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Texture2DMaterialSlot",
     "m_ObjectId": "606424c38552403f8c2316f0f1a74f17",
     "m_Id": 0,
-    "m_DisplayName": "Specular",
+    "m_DisplayName": "Emission",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2342,7 +2342,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.20000000298023225,
+    "m_Value": 0.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -3508,7 +3508,7 @@
     },
     "m_Name": "Sample Texture 2D",
     "m_DrawState": {
-        "m_Expanded": false,
+        "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
             "x": -380.0000305175781,
