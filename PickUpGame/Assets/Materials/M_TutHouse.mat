@@ -55,7 +55,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _CutoutSize: 0
-    - _FalloffSize: 0.05
+    - _FalloffSize: 0.15
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
