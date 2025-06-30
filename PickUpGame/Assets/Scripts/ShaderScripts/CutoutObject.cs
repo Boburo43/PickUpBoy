@@ -5,7 +5,7 @@ public class CutoutObject : MonoBehaviour
     private float currentCutoutSize = 0f;
     private float targetCutoutSize = 0f;
     public float cutoutSize = 0.3f;
-    public float cutoutFalloff = 0.0f;
+    public float cutoutFalloff = 0.15f;
     public float lerpSpeed = 5f;
 
     [SerializeField] private Transform targetObject;

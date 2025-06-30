@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fcac104bba40c7c4cb6a3a2828cf4a7a
+guid: cb53c7de73e1e3242b91cf8d8d50f4b5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,43 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: standardSurface10
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface3
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface4
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface5
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface6
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface7
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface8
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: standardSurface9
-    second: {fileID: 2100000, guid: 4b3cc03094a47104ea36512d3a48f5d6, type: 2}
+      name: White
+    second: {fileID: 2100000, guid: 45e515dd1a5e98a4b9580334c0308159, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -73,7 +38,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 50
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -128,7 +93,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.5
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
