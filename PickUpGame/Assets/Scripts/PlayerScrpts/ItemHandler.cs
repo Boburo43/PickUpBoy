@@ -101,7 +101,14 @@ public class ItemHandler : MonoBehaviour
             {
                 heldItem = pickup;
                 heldItem.PickUp(carryPoint);
-                break;
+                return;
+            }
+
+            IInteractable interactable = hit.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact();
+                return;
             }
         }
     }

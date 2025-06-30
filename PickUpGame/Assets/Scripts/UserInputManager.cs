@@ -17,6 +17,8 @@ public class UserInputManager : MonoBehaviour
 
     private PlayerInput _playerInput;
 
+    [SerializeField]private string currentActionMap = "Player";
+
     private InputAction _moveAction;
     private InputAction _adjustAngle;
     private InputAction _adjustForce;
@@ -44,6 +46,7 @@ public class UserInputManager : MonoBehaviour
 
     private void SetUpActions()
     {
+        if (_playerInput.currentActionMap == null) return;
         _moveAction = _playerInput.actions["Move"];
         _adjustAngle = _playerInput.actions["AdjustAngle"];
         _adjustForce = _playerInput.actions["AdjustForce"];
@@ -63,5 +66,19 @@ public class UserInputManager : MonoBehaviour
         Talk = _talk.WasPressedThisFrame();
         ToggleQuestList = _toggleQuestList.WasPressedThisFrame();
         Store = _store.WasPressedThisFrame();
+    }
+
+    public void SwitchActionMap(string newMap)
+    {
+        if (_playerInput.currentActionMap.name == newMap) return;
+
+        _playerInput.SwitchCurrentActionMap(newMap);
+        currentActionMap = newMap;
+
+        SetUpActions(); // Rebind actions for the new map
+    }
+    public string GetCurrentActionMap()
+    {
+        return currentActionMap;
     }
 }
