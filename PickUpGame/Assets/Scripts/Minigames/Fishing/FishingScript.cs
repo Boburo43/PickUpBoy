@@ -10,7 +10,6 @@ public class FishingScript : MonoBehaviour, IInteractable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        print("Twitch");
     }
 
     // Update is called once per frame
