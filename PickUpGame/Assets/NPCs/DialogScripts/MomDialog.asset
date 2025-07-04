@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042e730029cb36548891ff37802de094, type: 3}
-  m_Name: Test_FetchQuest
+  m_Script: {fileID: 11500000, guid: a5dffabc058e816449ef39b775981647, type: 3}
+  m_Name: MomDialog
   m_EditorClassIdentifier: 
-  questName: Fetch
-  description: 
-  reminderLine: Have you found my Duck!!
-  completedLine: Thank you for finding Gerald!!
-  state: 1
+  dialogueLines:
+  - Hello dear
+  endLine: Would you please help me take out the trash.

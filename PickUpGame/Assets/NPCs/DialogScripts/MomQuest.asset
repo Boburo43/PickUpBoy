@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 042e730029cb36548891ff37802de094, type: 3}
-  m_Name: Test_FetchQuest
+  m_Name: MomQuest
   m_EditorClassIdentifier: 
-  questName: Fetch
-  description: 
-  reminderLine: Have you found my Duck!!
-  completedLine: Thank you for finding Gerald!!
-  state: 1
+  questName: Take out the trash
+  description: take out the trash mom gives you
+  reminderLine: Check your to do list if you forget what to do.
+  completedLine: Thank you dear. Go to the park and play now!
+  state: 2
