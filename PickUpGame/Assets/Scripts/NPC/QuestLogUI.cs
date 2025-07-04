@@ -30,11 +30,13 @@ public class QuestLogUI : MonoBehaviour
             questLogPanel.SetActive(isActivating);
 
             EventSystem.current.SetSelectedGameObject(null);
-
+            UserInputManager.instance.EnableAction("Move");
             if (isActivating)
             {
                 EventSystem.current.SetSelectedGameObject(Scroller);
+                UserInputManager.instance.DisableAction("Move");
             }
+            
         }
     }
 

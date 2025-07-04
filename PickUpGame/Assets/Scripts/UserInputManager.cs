@@ -47,7 +47,7 @@ public class UserInputManager : MonoBehaviour
     private void SetUpActions()
     {
         if (_playerInput.currentActionMap == null) return;
-        _moveAction = _playerInput.actions["Move"];
+        _moveAction = _playerInput.actions["Move"]; 
         _adjustAngle = _playerInput.actions["AdjustAngle"];
         _adjustForce = _playerInput.actions["AdjustForce"];
         _pickUp = _playerInput.actions["PickUp"];
@@ -80,5 +80,18 @@ public class UserInputManager : MonoBehaviour
     public string GetCurrentActionMap()
     {
         return currentActionMap;
+    }
+    public void EnableAction(string actionName)
+    {
+        var action = _playerInput.actions[actionName];
+        if (action != null && !action.enabled)
+            action.Enable();
+    }
+
+    public void DisableAction(string actionName)
+    {
+        var action = _playerInput.actions[actionName];
+        if (action != null && action.enabled)
+            action.Disable();
     }
 }
