@@ -16,4 +16,4 @@ MonoBehaviour:
   description: take out the trash mom gives you
   reminderLine: Check your to do list if you forget what to do.
   completedLine: Thank you dear. Go to the park and play now!
-  state: 2
+  state: 0
