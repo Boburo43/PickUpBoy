@@ -59,21 +59,23 @@ Material:
     - _Cull: 2
     - _DstBlend: 0
     - _Float: 0
-    - _Length: 82.9
+    - _Length: 50
     - _MaskSize: 29.46
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 2.84
+    - _Speed: 4
+    - _SpineTwistAmount: 10000
     - _SrcBlend: 1
     - _Surface: 0
     - _WiggleStrength: 0.005
+    - _YawWiggleStrength: 0.01
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     - _sideToSideAmplitude: 53.58
     - _sideToSideOffset: 0.0005
     - _yawOffset: 0
-    - _yawRotAmplitude: 0.05
+    - _yawRotAmplitude: -0.1
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
