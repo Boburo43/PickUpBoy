@@ -437,7 +437,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ToggleQuestList"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -961,11 +961,11 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""NewMap"",
+            ""name"": ""Fishing"",
             ""id"": ""54b8ea32-19cd-4cbe-b4f2-d64389561134"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Quit"",
                     ""type"": ""Button"",
                     ""id"": ""61ec7e4b-bc90-41e4-9259-43acfa665536"",
                     ""expectedControlType"": """",
@@ -978,11 +978,22 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""743925ff-7cab-4aa5-9814-c81c27b230b4"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb29c688-4dd2-4803-9a55-c191f998a3e7"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Quit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1073,16 +1084,16 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        // NewMap
-        m_NewMap = asset.FindActionMap("NewMap", throwIfNotFound: true);
-        m_NewMap_Newaction = m_NewMap.FindAction("New action", throwIfNotFound: true);
+        // Fishing
+        m_Fishing = asset.FindActionMap("Fishing", throwIfNotFound: true);
+        m_Fishing_Quit = m_Fishing.FindAction("Quit", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_NewMap.enabled, "This will cause a leak and performance issues, InputSystem_Actions.NewMap.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Fishing.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Fishing.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1512,29 +1523,29 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// </summary>
     public UIActions @UI => new UIActions(this);
 
-    // NewMap
-    private readonly InputActionMap m_NewMap;
-    private List<INewMapActions> m_NewMapActionsCallbackInterfaces = new List<INewMapActions>();
-    private readonly InputAction m_NewMap_Newaction;
+    // Fishing
+    private readonly InputActionMap m_Fishing;
+    private List<IFishingActions> m_FishingActionsCallbackInterfaces = new List<IFishingActions>();
+    private readonly InputAction m_Fishing_Quit;
     /// <summary>
-    /// Provides access to input actions defined in input action map "NewMap".
+    /// Provides access to input actions defined in input action map "Fishing".
     /// </summary>
-    public struct NewMapActions
+    public struct FishingActions
     {
         private @InputSystem_Actions m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public NewMapActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        public FishingActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "NewMap/Newaction".
+        /// Provides access to the underlying input action "Fishing/Quit".
         /// </summary>
-        public InputAction @Newaction => m_Wrapper.m_NewMap_Newaction;
+        public InputAction @Quit => m_Wrapper.m_Fishing_Quit;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_NewMap; }
+        public InputActionMap Get() { return m_Wrapper.m_Fishing; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -1542,9 +1553,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="NewMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="FishingActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(NewMapActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(FishingActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -1552,14 +1563,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="NewMapActions" />
-        public void AddCallbacks(INewMapActions instance)
+        /// <seealso cref="FishingActions" />
+        public void AddCallbacks(IFishingActions instance)
         {
-            if (instance == null || m_Wrapper.m_NewMapActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_NewMapActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            if (instance == null || m_Wrapper.m_FishingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_FishingActionsCallbackInterfaces.Add(instance);
+            @Quit.started += instance.OnQuit;
+            @Quit.performed += instance.OnQuit;
+            @Quit.canceled += instance.OnQuit;
         }
 
         /// <summary>
@@ -1568,21 +1579,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="NewMapActions" />
-        private void UnregisterCallbacks(INewMapActions instance)
+        /// <seealso cref="FishingActions" />
+        private void UnregisterCallbacks(IFishingActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @Quit.started -= instance.OnQuit;
+            @Quit.performed -= instance.OnQuit;
+            @Quit.canceled -= instance.OnQuit;
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NewMapActions.UnregisterCallbacks(INewMapActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="FishingActions.UnregisterCallbacks(IFishingActions)" />.
         /// </summary>
-        /// <seealso cref="NewMapActions.UnregisterCallbacks(INewMapActions)" />
-        public void RemoveCallbacks(INewMapActions instance)
+        /// <seealso cref="FishingActions.UnregisterCallbacks(IFishingActions)" />
+        public void RemoveCallbacks(IFishingActions instance)
         {
-            if (m_Wrapper.m_NewMapActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_FishingActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -1592,21 +1603,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="NewMapActions.AddCallbacks(INewMapActions)" />
-        /// <seealso cref="NewMapActions.RemoveCallbacks(INewMapActions)" />
-        /// <seealso cref="NewMapActions.UnregisterCallbacks(INewMapActions)" />
-        public void SetCallbacks(INewMapActions instance)
+        /// <seealso cref="FishingActions.AddCallbacks(IFishingActions)" />
+        /// <seealso cref="FishingActions.RemoveCallbacks(IFishingActions)" />
+        /// <seealso cref="FishingActions.UnregisterCallbacks(IFishingActions)" />
+        public void SetCallbacks(IFishingActions instance)
         {
-            foreach (var item in m_Wrapper.m_NewMapActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_FishingActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_NewMapActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_FishingActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="NewMapActions" /> instance referencing this action map.
+    /// Provides a new <see cref="FishingActions" /> instance referencing this action map.
     /// </summary>
-    public NewMapActions @NewMap => new NewMapActions(this);
+    public FishingActions @Fishing => new FishingActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -1808,18 +1819,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "NewMap" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Fishing" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="NewMapActions.AddCallbacks(INewMapActions)" />
-    /// <seealso cref="NewMapActions.RemoveCallbacks(INewMapActions)" />
-    public interface INewMapActions
+    /// <seealso cref="FishingActions.AddCallbacks(IFishingActions)" />
+    /// <seealso cref="FishingActions.RemoveCallbacks(IFishingActions)" />
+    public interface IFishingActions
     {
         /// <summary>
-        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Quit" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnQuit(InputAction.CallbackContext context);
     }
 }

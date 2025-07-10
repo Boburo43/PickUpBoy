@@ -13,6 +13,7 @@ public class UserInputManager : MonoBehaviour
     public bool Talk {  get; private set; }
     public bool ToggleQuestList { get; private set; }
     public bool Store {  get; private set; }
+    public bool fishQuit { get; private set; }
 
 
     private PlayerInput _playerInput;
@@ -26,6 +27,7 @@ public class UserInputManager : MonoBehaviour
     private InputAction _talk;
     private InputAction _toggleQuestList;
     private InputAction _store;
+    private InputAction _fishQuit;
 
     private void Awake()
     {
@@ -54,6 +56,7 @@ public class UserInputManager : MonoBehaviour
         _talk = _playerInput.actions["Talk"];
         _toggleQuestList = _playerInput.actions["ToggleQuestList"];
         _store = _playerInput.actions["Store"];
+        _fishQuit = _playerInput.actions["Quit"];
     }
 
 
@@ -66,6 +69,7 @@ public class UserInputManager : MonoBehaviour
         Talk = _talk.WasPressedThisFrame();
         ToggleQuestList = _toggleQuestList.WasPressedThisFrame();
         Store = _store.WasPressedThisFrame();
+        fishQuit = _fishQuit.WasPressedThisFrame();
     }
 
     public void SwitchActionMap(string newMap)

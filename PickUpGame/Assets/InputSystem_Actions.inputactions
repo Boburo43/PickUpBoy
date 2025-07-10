@@ -351,7 +351,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "ToggleQuestList",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -875,11 +875,11 @@
             ]
         },
         {
-            "name": "NewMap",
+            "name": "Fishing",
             "id": "54b8ea32-19cd-4cbe-b4f2-d64389561134",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Quit",
                     "type": "Button",
                     "id": "61ec7e4b-bc90-41e4-9259-43acfa665536",
                     "expectedControlType": "",
@@ -892,11 +892,22 @@
                 {
                     "name": "",
                     "id": "743925ff-7cab-4aa5-9814-c81c27b230b4",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb29c688-4dd2-4803-9a55-c191f998a3e7",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
