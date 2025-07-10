@@ -64,11 +64,12 @@ Material:
     - _DstBlend: 0
     - _Float: 0
     - _Length: 50
-    - _MaskSize: 106.11
+    - _MaskSize: 100
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 4
+    - _Speed: 5
     - _SpineTwistAmount: 10000
+    - _SpineWiggeStrength: 0.1
     - _SrcBlend: 1
     - _Surface: 0
     - _WiggleStrength: 0.005

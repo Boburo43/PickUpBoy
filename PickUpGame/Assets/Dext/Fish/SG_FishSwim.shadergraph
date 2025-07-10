@@ -1879,10 +1879,10 @@
     "m_Guid": {
         "m_GuidSerialized": "08269f2f-877d-470a-b04f-d37384774840"
     },
-    "m_Name": "YawWiggleStrength",
+    "m_Name": "SpineWiggeStrength",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "YawWiggleStrength",
-    "m_DefaultReferenceName": "_YawWiggleStrength",
+    "m_RefNameGeneratedByDisplayName": "SpineWiggeStrength",
+    "m_DefaultReferenceName": "_SpineWiggeStrength",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -4089,7 +4089,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "6b349845e0d540aa9cf06c46de17eb0b",
     "m_Id": 0,
-    "m_DisplayName": "YawWiggleStrength",
+    "m_DisplayName": "SpineWiggeStrength",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -6090,7 +6090,7 @@
     "m_Title": "YawWiggleSpineRotation",
     "m_Position": {
         "x": -1108.0,
-        "y": -2439.0
+        "y": -2438.999755859375
     }
 }
 
