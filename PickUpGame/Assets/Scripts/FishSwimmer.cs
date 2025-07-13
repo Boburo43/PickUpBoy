@@ -23,6 +23,7 @@ public class FishSwimmer : MonoBehaviour
 
     void FixedUpdate()
     {
+
         if (swimZoneVolume == null) return;
 
         Bounds bounds = swimZoneVolume.bounds;

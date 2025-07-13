@@ -17,7 +17,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2997
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -61,7 +61,7 @@ Material:
     - _FoamScale: 30
     - _Foam_Speed: 0.4
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _QueueOffset: -3
     - _ReceiveShadows: 1
     - _RefractScale: 2
     - _RefractSpeed: 0.02
