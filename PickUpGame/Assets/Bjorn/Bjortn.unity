@@ -52192,10 +52192,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 252549e6305bfc04c8b95d14be932d0d, type: 3}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 --- !u!1 &1078771747
 GameObject:
   m_ObjectHideFlags: 0
@@ -53386,8 +53383,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
-=======
->>>>>>> Stashed changes
+
 --- !u!1001 &1084953737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55256,10 +55252,7 @@ Mesh:
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   m_LocalRotation: {x: -0, y: 0.016739205, z: -0, w: 0.99986}
   m_LocalPosition: {x: -29.543549, y: 6.4782696, z: -6.6941605}
   m_LocalScale: {x: 0.80554974, y: 0.80555, z: 0.80554974}
@@ -55396,24 +55389,20 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!136 &1122584470
 CapsuleCollider:
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
+
   m_GameObject: {fileID: 1122584466}
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   m_GameObject: {fileID: 1120320854}
-=======
+
   m_GameObject: {fileID: 1122584466}
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
->>>>>>> Stashed changes
-=======
+
   m_GameObject: {fileID: 1122584466}
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -55425,10 +55414,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -55560,16 +55546,13 @@ Rigidbody:
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1122584472
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   m_GameObject: {fileID: 1120320854}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -55805,9 +55788,7 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
-=======
->>>>>>> Stashed changes
-=======
+
   m_GameObject: {fileID: 1122584466}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -58563,10 +58544,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6567659277488998010, guid: 922dfc7dc4d885e4ca623b674695b2aa, type: 3}
   m_PrefabInstance: {fileID: 1260839704}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
   m_GameObject: {fileID: 1163333047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.016739205, z: -0, w: 0.99986}
@@ -58775,18 +58753,13 @@ Mesh:
     offset: 0
     size: 0
     path: 
-=======
->>>>>>> Stashed changes
+
 --- !u!4 &1164450406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b89d5344d1f2d2042a94c147513b2792, type: 3}
   m_PrefabInstance: {fileID: 1523940936}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-=======
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
->>>>>>> Stashed changes
-=======
+
 --- !u!4 &1164450406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b89d5344d1f2d2042a94c147513b2792, type: 3}
@@ -72069,11 +72042,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b89d5344d1f2d2042a94c147513b2792, type: 3}
-<<<<<<< Updated upstream
-=======
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
->>>>>>> Stashed changes
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
 --- !u!43 &1530270479
 Mesh:
   m_ObjectHideFlags: 0
@@ -84963,10 +84932,7 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 --- !u!43 &1770235485
 Mesh:
   m_ObjectHideFlags: 0
@@ -111279,14 +111245,12 @@ SceneRoots:
   - {fileID: 318529467}
   - {fileID: 334469422}
   - {fileID: 1807962948}
-<<<<<<< HEAD
+
   - {fileID: 206595168}
-=======
+
   - {fileID: 1084953737}
   - {fileID: 291843026}
-<<<<<<< Updated upstream
-=======
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
 >>>>>>> Stashed changes
   - {fileID: 291843026}
->>>>>>> aaa696e2bbddedbd2e5735ed1a0aea963723fb7f
+
