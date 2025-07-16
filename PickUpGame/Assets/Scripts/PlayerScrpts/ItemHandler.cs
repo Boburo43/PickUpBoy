@@ -14,7 +14,7 @@ public class ItemHandler : MonoBehaviour
     private float minThrowForce = 2f;
     private float maxThrowForce = 15f;
     private float minThrowAngle = 15f;
-    private float maxThrowAngle = 80f;
+    private float maxThrowAngle = 70f;
 
     private float angleAdjustSpeed = 60f;
     private float forceAdjustSpeed = 20f;
@@ -55,15 +55,16 @@ public class ItemHandler : MonoBehaviour
 
     private void HandleAiming()
     {
-        float angleInput = UserInputManager.instance.AdjustAngle;
-        float forceInput = UserInputManager.instance.AdjustForce;
+        float input = UserInputManager.instance.AdjustForce; 
 
-        throwAngle += angleInput * angleAdjustSpeed * Time.deltaTime;
-        throwForce += forceInput * forceAdjustSpeed * Time.deltaTime;
+        
+        throwAngle += input * angleAdjustSpeed * Time.deltaTime;
+        throwForce += input * forceAdjustSpeed * Time.deltaTime;
 
         throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
         throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
     }
+
 
     private void HandleTrajectory()
     {
@@ -115,12 +116,18 @@ public class ItemHandler : MonoBehaviour
 
     private void ThrowItem()
     {
+        if (heldItem == null) return;
+
         Vector3 forward = transform.forward;
         Vector3 up = Vector3.up;
-        Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, Vector3.Cross(forward, up));
+        Vector3 axis = Vector3.Cross(forward, up);
+        Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, axis);
         Vector3 throwDir = angleRotation * forward;
 
-        heldItem.Throw(throwDir * throwForce * heldItem.ThrowForceMultiplier());
+        // Apply force
+        float finalForce = throwForce * heldItem.ThrowForceMultiplier();
+        heldItem.Throw(throwDir.normalized * finalForce);
+
         heldItem = null;
     }
 
