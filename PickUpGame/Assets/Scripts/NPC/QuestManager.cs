@@ -4,6 +4,7 @@ using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance;
+    public QuestLogUI questLogUI;
 
     private void Awake()
     {
@@ -11,6 +12,8 @@ public class QuestManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+       
     }
 
     public void StartQuest(Quest quest)
@@ -19,6 +22,9 @@ public class QuestManager : MonoBehaviour
         {
             quest.state = QuestState.InProgress;
             Debug.Log($"Quest Started: {quest.questName}");
+
+            if (questLogUI != null)
+                questLogUI.AddQuestToLog(quest.questName);
         }
     }
 
@@ -28,6 +34,8 @@ public class QuestManager : MonoBehaviour
         {
             quest.state = QuestState.Completed;
             Debug.Log($"Quest Completed: {quest.questName}");
+
+            questLogUI.MarkQuestAsCompleted(quest.questName);
         }
     }
 }

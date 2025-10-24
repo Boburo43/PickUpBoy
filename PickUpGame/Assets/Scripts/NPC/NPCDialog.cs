@@ -1,45 +1,56 @@
 ﻿using System.Collections;
 using UnityEngine;
+using TMPro;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(SphereCollider))]
 public class NPCDialogueTrigger : MonoBehaviour
 {
     public GameObject textBubbleUI;
+    [SerializeField] private Transform textAnchor;
     public DialogueData dialogueData;
-    public Quest npcQuest; // Optional quest reference
+    public Quest npcQuest;
 
     public float typingSpeed = 0.05f;
-    [SerializeField] private float inputCooldown = 0.2f;
+    [SerializeField] private int currentLineIndex = 0;
 
-    [SerializeField]private int currentLineIndex = 0;
     private bool playerInRange = false;
     private bool isTyping = false;
-    private bool inputLocked = false;
     private bool hasShownEndLine = false;
 
     private string currentLine = "";
     private string lastDisplayedLine = "";
 
-
     private Coroutine typingCoroutine;
     private TMPro.TextMeshProUGUI textComponent;
-    private InputSystem_Actions controls;
 
-    private void Awake()
-    {
-        controls = new InputSystem_Actions();
-        controls.Player.Talk.performed += OnTalkPerformed;
-    }
-
-    private void OnEnable() => controls?.Enable();
-    private void OnDisable() => controls?.Disable();
+    [SerializeField] private float dialogRadius = 3f;
+    private SphereCollider triggerCollider;
 
     private void Start()
     {
+        triggerCollider = GetComponent<SphereCollider>();
+        triggerCollider.isTrigger = true;
+        triggerCollider.radius = dialogRadius;
+
         if (textBubbleUI != null)
         {
             textComponent = textBubbleUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
             textBubbleUI.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        // Keep UI anchored
+        textBubbleUI.transform.position = textAnchor.position;
+
+        if (!playerInRange)
+            return;
+
+        if (UserInputManager.instance.Talk)
+        {
+            OnTalkPressed();
         }
     }
 
@@ -49,19 +60,15 @@ public class NPCDialogueTrigger : MonoBehaviour
         {
             playerInRange = true;
             textBubbleUI.SetActive(true);
-            if(npcQuest != null)
+
+            if (npcQuest != null && npcQuest.state == QuestState.Completed)
             {
-                if(npcQuest.state == QuestState.Completed)
-                {
-                    ShowLine(npcQuest.completedLine);
-                }
+                ShowLine(npcQuest.completedLine);
             }
-            if (!string.IsNullOrEmpty(lastDisplayedLine))
+            else if (!string.IsNullOrEmpty(lastDisplayedLine))
             {
-                // Start typing the last displayed line again
                 if (typingCoroutine != null)
                     StopCoroutine(typingCoroutine);
-
                 typingCoroutine = StartCoroutine(TypeText(lastDisplayedLine));
             }
             else
@@ -70,8 +77,6 @@ public class NPCDialogueTrigger : MonoBehaviour
             }
         }
     }
-
-
 
     private void OnTriggerExit(Collider other)
     {
@@ -87,18 +92,17 @@ public class NPCDialogueTrigger : MonoBehaviour
         }
     }
 
-    private void OnTalkPerformed(InputAction.CallbackContext context)
+    private void OnTalkPressed()
     {
-        if (!playerInRange || inputLocked)
+        if (!playerInRange)
             return;
 
         if (isTyping)
         {
-            // Finish line immediately
             StopCoroutine(typingCoroutine);
             textComponent.text = currentLine;
             isTyping = false;
-            return; 
+            return;
         }
 
         HandleDialogueAdvance();
@@ -106,7 +110,6 @@ public class NPCDialogueTrigger : MonoBehaviour
 
     private void HandleDialogueAdvance()
     {
-        // Case 1: Still going through regular dialogue
         if (currentLineIndex + 1 < dialogueData.dialogueLines.Count)
         {
             currentLineIndex++;
@@ -114,14 +117,11 @@ public class NPCDialogueTrigger : MonoBehaviour
             return;
         }
 
-        // Case 2: Finished regular dialogue, show endLine once
         if (!hasShownEndLine)
         {
             hasShownEndLine = true;
-
             ShowLine(dialogueData.endLine);
 
-            // Start quest if it's not started yet
             if (npcQuest != null && npcQuest.state == QuestState.NotStarted)
             {
                 QuestManager.Instance.StartQuest(npcQuest);
@@ -129,22 +129,18 @@ public class NPCDialogueTrigger : MonoBehaviour
             return;
         }
 
-        // Case 3: After endLine has been shown, handle quest-specific lines
         if (npcQuest != null)
         {
             if (npcQuest.state == QuestState.Completed)
             {
                 ShowLine(npcQuest.completedLine);
-                return;
             }
-            if (npcQuest.state == QuestState.InProgress)
+            else if (npcQuest.state == QuestState.InProgress)
             {
                 ShowLine(npcQuest.reminderLine);
-                return;
             }
         }
     }
-
 
     private void ShowCurrentDialogueLine()
     {
@@ -157,11 +153,9 @@ public class NPCDialogueTrigger : MonoBehaviour
             StopCoroutine(typingCoroutine);
 
         currentLine = dialogueData.dialogueLines[currentLineIndex];
-        lastDisplayedLine = currentLine; 
+        lastDisplayedLine = currentLine;
         typingCoroutine = StartCoroutine(TypeText(currentLine));
     }
-
-
 
     private void ShowLine(string line)
     {
@@ -174,10 +168,9 @@ public class NPCDialogueTrigger : MonoBehaviour
             StopCoroutine(typingCoroutine);
 
         currentLine = line;
-        lastDisplayedLine = line; 
+        lastDisplayedLine = line;
         typingCoroutine = StartCoroutine(TypeText(currentLine));
     }
-
 
     private IEnumerator TypeText(string line)
     {

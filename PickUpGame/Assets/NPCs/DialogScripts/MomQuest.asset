@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 042e730029cb36548891ff37802de094, type: 3}
+  m_Name: MomQuest
+  m_EditorClassIdentifier: 
+  questName: Take out the trash
+  description: take out the trash mom gives you
+  reminderLine: Check your to do list if you forget what to do.
+  completedLine: Thank you dear. Go to the park and play now!
+  state: 0

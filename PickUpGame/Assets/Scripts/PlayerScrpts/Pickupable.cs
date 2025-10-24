@@ -60,7 +60,7 @@ public class Pickupable : MonoBehaviour
     {
         return weightClass switch
         {
-            ItemWeightClass.Light => 1f,
+            ItemWeightClass.Light => 0.85f,
             ItemWeightClass.Medium => 0.7f,
             ItemWeightClass.Heavy => 0.5f,
             _ => 1f
@@ -73,7 +73,7 @@ public class Pickupable : MonoBehaviour
         {
             ItemWeightClass.Light => 1f,
             ItemWeightClass.Medium => 0.85f,
-            ItemWeightClass.Heavy => 0.3f,
+            ItemWeightClass.Heavy => 0.4f,
             _ => 1f
         };
     }

@@ -1,57 +1,72 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.Windows;
-
 
 public class ItemHandler : MonoBehaviour
 {
     [SerializeField] private Transform carryPoint;
     [SerializeField] private Transform grabPoint;
-    [SerializeField]private LayerMask pickupMask;
+    [SerializeField] private LayerMask pickupMask;
+    [SerializeField] private Inventory inventory;
+
     private float pickupRange = 2f;
     private float throwForce = 5f;
     private float throwAngle = 30f;
 
     private float minThrowForce = 2f;
     private float maxThrowForce = 15f;
-
     private float minThrowAngle = 15f;
-    private float maxThrowAngle = 80f;
+    private float maxThrowAngle = 70f;
 
     private float angleAdjustSpeed = 60f;
     private float forceAdjustSpeed = 20f;
 
     private Pickupable heldItem;
-    private InputSystem_Actions controls;
-    private float angleInput;
-    private float forceInput;
 
-    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] private LineRenderer lineRenderer;
     private int trajectorySteps = 50;
     private float trajectoryTimeStep = 0.05f;
 
     private void Awake()
     {
-        controls = new InputSystem_Actions();
-        controls.Player.PickUp.performed += _ => OnPickUpOrThrow();
-        controls.Player.AdjustAngle.performed += ctx => angleInput = ctx.ReadValue<float>();
-        controls.Player.AdjustAngle.canceled += _ => angleInput = 0f;
-
-        controls.Player.AdjustForce.performed += ctx => forceInput = ctx.ReadValue<float>();
-        controls.Player.AdjustForce.canceled += _ => forceInput = 0f;
-    }
-
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        controls.Disable();
+        if (inventory == null)
+        {
+            inventory = GetComponent<Inventory>();
+        }
     }
 
     private void Update()
+    {
+        HandleInput();
+        HandleAiming();
+        HandleTrajectory();
+    }
+
+    private void HandleInput()
+    {
+        if (UserInputManager.instance.PickUp)
+        {
+            OnPickUpOrThrow();
+        }
+
+        if (UserInputManager.instance.Store)
+        {
+            OnStoreOrRetrieve();
+        }
+    }
+
+    private void HandleAiming()
+    {
+        float input = UserInputManager.instance.AdjustForce; 
+
+        
+        throwAngle += input * angleAdjustSpeed * Time.deltaTime;
+        throwForce += input * forceAdjustSpeed * Time.deltaTime;
+
+        throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
+        throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
+    }
+
+
+    private void HandleTrajectory()
     {
         if (heldItem != null)
         {
@@ -59,19 +74,13 @@ public class ItemHandler : MonoBehaviour
         }
         else
         {
-            lineRenderer.positionCount = 0; // hide arc
+            lineRenderer.positionCount = 0;
         }
-        // Draw a wireframe sphere in the Scene view (editor only)
+
         DebugDrawSphere(grabPoint.position, pickupRange, Color.green);
-
-        throwAngle += angleInput * angleAdjustSpeed * Time.deltaTime;
-        throwForce += forceInput * forceAdjustSpeed * Time.deltaTime;
-
-        throwAngle = Mathf.Clamp(throwAngle, minThrowAngle, maxThrowAngle);
-        throwForce = Mathf.Clamp(throwForce, minThrowForce, maxThrowForce);
     }
 
-    void OnPickUpOrThrow()
+    private void OnPickUpOrThrow()
     {
         if (heldItem == null)
         {
@@ -83,7 +92,7 @@ public class ItemHandler : MonoBehaviour
         }
     }
 
-    void TryPickup()
+    private void TryPickup()
     {
         Collider[] hits = Physics.OverlapSphere(grabPoint.position, pickupRange, pickupMask);
         foreach (var hit in hits)
@@ -93,27 +102,41 @@ public class ItemHandler : MonoBehaviour
             {
                 heldItem = pickup;
                 heldItem.PickUp(carryPoint);
-                break;
+                return;
+            }
+
+            IInteractable interactable = hit.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable.Interact();
+                return;
             }
         }
     }
 
-    void ThrowItem()
+    private void ThrowItem()
     {
+        if (heldItem == null) return;
+
         Vector3 forward = transform.forward;
         Vector3 up = Vector3.up;
-        Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, Vector3.Cross(forward, up));
+        Vector3 axis = Vector3.Cross(forward, up);
+        Quaternion angleRotation = Quaternion.AngleAxis(throwAngle, axis);
         Vector3 throwDir = angleRotation * forward;
 
-        heldItem.Throw(throwDir * throwForce * heldItem.ThrowForceMultiplier());
+        // Apply force
+        float finalForce = throwForce * heldItem.ThrowForceMultiplier();
+        heldItem.Throw(throwDir.normalized * finalForce);
+
         heldItem = null;
     }
+
     public float GetHeldItemSpeedMultiplier()
     {
         return heldItem != null ? heldItem.MovementSpeedMultiplier() : 1f;
     }
 
-    void DebugDrawSphere(Vector3 center, float radius, Color color, int segments = 24)
+    private void DebugDrawSphere(Vector3 center, float radius, Color color, int segments = 24)
     {
         float step = 360f / segments;
         for (int i = 0; i < segments; i++)
@@ -124,29 +147,23 @@ public class ItemHandler : MonoBehaviour
             Vector3 offsetA = new Vector3(Mathf.Cos(angleA), 0, Mathf.Sin(angleA)) * radius;
             Vector3 offsetB = new Vector3(Mathf.Cos(angleB), 0, Mathf.Sin(angleB)) * radius;
 
-            // Draw horizontal circle
             Debug.DrawLine(center + offsetA, center + offsetB, color);
-
-            // Draw vertical circle
             Vector3 yOffsetA = new Vector3(0, Mathf.Cos(angleA), Mathf.Sin(angleA)) * radius;
             Vector3 yOffsetB = new Vector3(0, Mathf.Cos(angleB), Mathf.Sin(angleB)) * radius;
             Debug.DrawLine(center + yOffsetA, center + yOffsetB, color);
-
-            // Draw cross circle
             Vector3 xzOffsetA = new Vector3(Mathf.Cos(angleA), Mathf.Sin(angleA), 0) * radius;
             Vector3 xzOffsetB = new Vector3(Mathf.Cos(angleB), Mathf.Sin(angleB), 0) * radius;
             Debug.DrawLine(center + xzOffsetA, center + xzOffsetB, color);
         }
     }
-    void ShowThrowArc()
+
+    private void ShowThrowArc()
     {
         Vector3[] points = new Vector3[trajectorySteps];
-
         Vector3 startPos = carryPoint.position;
         Quaternion angleRot = Quaternion.AngleAxis(throwAngle, Vector3.Cross(transform.forward, Vector3.up));
         Vector3 throwDir = angleRot * transform.forward * heldItem.ThrowForceMultiplier();
         Vector3 velocity = throwDir * throwForce * heldItem.ThrowForceMultiplier();
-
 
         for (int i = 0; i < trajectorySteps; i++)
         {
@@ -157,5 +174,27 @@ public class ItemHandler : MonoBehaviour
 
         lineRenderer.positionCount = trajectorySteps;
         lineRenderer.SetPositions(points);
+    }
+
+    private void OnStoreOrRetrieve()
+    {
+        if (heldItem != null)
+        {
+            bool stored = inventory.AddItem(heldItem);
+            if (stored)
+            {
+                heldItem = null;
+            }
+        }
+        else
+        {
+            Pickupable item = inventory.RetrieveItem();
+            if (item != null)
+            {
+                item.transform.position = carryPoint.position;
+                heldItem = item;
+                heldItem.PickUp(carryPoint);
+            }
+        }
     }
 }
