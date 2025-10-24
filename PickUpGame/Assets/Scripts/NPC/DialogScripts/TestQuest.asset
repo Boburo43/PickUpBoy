@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Test
   reminderLine: Basketball is hard
   completedLine: Waow so cool
-  state: 2
+  state: 0
